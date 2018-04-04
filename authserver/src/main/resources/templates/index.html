@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>登录</title>
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="/static/css/bootstrap/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" href="/static/css/main.css"></link>
+</head>
+
+<body >
+<div class="bg-main">
+    <div class="login-box">
+        <div class="login-icon">
+            <img src="/static/img/login-icon.png"></img>
+        </div>
+
+        <div class="login-logo"></div>
+        <div class="login-main"  th:unless="${session.SPRING_SECURITY_CONTEXT}">
+            <div class="login-main-title">
+                <a id="btn-login" href="javascript:void(0);" class="login-btn-selected">登录</a>
+                <a id="btn-register" href="javascript:void(0);">注册</a>
+            </div>
+            <form id="login-main" th:action="@{/login}" class="login-main-con" method="post">
+                <div align="center" th:if="${param.error}">
+                    <p style="margin-bottom:0; color: #FF1C19;">账户或者密码错误</p>
+                </div>
+                <p align="center" style="font-size: 20; color: #FF1C19;" th:text="${msg}">???????</p>
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="用户名"/>
+                </div>
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="密码"/>
+                </div>
+                <a id="formsubmit" class="btn btn-success">登 录</a>
+            </form>
+            <form id="register-main" class="login-main-con" method="post" action="/registration" style="display: none">
+                <input type="text" class="form-control input-sm" placeholder="* 用户名" name="regisname"/>
+                <input type="password" class="form-control input-sm" placeholder="* 密码" id="regisspassword"
+                       name="regisspassword"/>
+                <input type="text" class="form-control input-sm" placeholder="* 真实姓名" name="regisrealname"/>
+                <select name="regisSex" class="form-control input-sm" >
+                    <option value="1">男</option>
+                    <option value="0">女</option>
+                </select>
+                <select name="regisdeaprtment" class="form-control input-sm" >
+                    <option value="请选择单位">请选择单位</option>
+                    <option th:each="regisdepartment : ${dept}"
+                            th:value="${regisdepartment.DEPARTMENTID}"
+                            th:text="${regisdepartment.DEPTNAME}">Wireframe
+                    </option>
+                </select>
+                <input type="number" class="form-control input-sm" placeholder="* 手机号" id="regisphone"
+                       name="regisphone"/>
+                <div align="center" th:if="${param.error}">
+                    <p style="margin-bottom:0; color: #FF1C19;">账号名重复，请重新输入</p>
+                </div>
+                <a id="regissubmit" class="btn btn-info">注 册</a>
+            </form>
+        </div>
+        <div class="container " th:if="${session.SPRING_SECURITY_CONTEXT}"  style="margin-left: 40%;">
+            <!--登录账户:   <span th:text="${#authentication.name}"></span>-->
+            <div>
+                <form th:action="@{/logout}" method="post" class="" style="display: inline">
+                    <button class="index-header-login btn btn-sm btn-warning" type="submit" >退出登录</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" src="//10.104.236.53:9999/static/jquery/3.2.1/jquery.min.js"
+        th:href="@{//10.104.236.53:9999/static/jquery/3.2.1/jquery.min.js}"></script>
+
+<script type="text/javascript"
+        src="//10.104.236.53:9999/static/bootstrap/3.3.7/js/bootstrap.min.js"
+        th:href="@{//10.104.236.53:9999/static/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/static/js/login.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/js/md5.min.js"></script>
+</body>
+</html>

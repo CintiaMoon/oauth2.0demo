@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>一体化授权</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="/static/css/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/main.css"/>
+</head>
+<body>
+<div class="bg-main">
+    <div class="login-box">
+        <div class="login-icon">
+            <img src="/static/img/login-icon.png"/>
+        </div>
+        <div class="login-logo"></div>
+        <div class="login-main">
+            <div class="login-main-title">
+                <a id="btn-login" href="javascript:void(0);" class="login-btn-selected">一体化授权</a>
+            </div>
+            <div class="error" th:if="${denial}" style="display: none;">
+                <h2>糟糕啦</h2>
+                <p> 授权未被许可 </p>
+            </div>
+
+            <form class="login-main-con" action="/oauth/authorize" th:attr="action=@{/oauth/authorize}" method="post">
+                <div class="login-icon">
+                    <p>同意授权给 "<span th:text="${client.clientId}"></span>" 访问以下资源吗？</p>
+                </div>
+                <input name="user_oauth_approval" value="true" type="hidden"/>
+                <input type='hidden' name='${_csrf.parameterName}' value='${_csrf.token}'/>
+                <ul class="list-unstyled" th:if="${scopeList} != null">
+                    <li th:each="scope : ${scopeList}" class="text-center">
+                        <div class="form-group">
+                            <label th:text="${scope.key}">资源</label>
+                            <input type="radio" th:name="${scope.key}" value="true" th:checked="${scope.approved}">同意</input>
+                            <input type="radio" th:name="${scope.key}" value="false" th:checked="${scope.denied}">拒绝</input>
+                        </div>
+                    </li>
+
+                </ul>
+                   <button  id="confirmationForm" name="confirmationForm" class="btn btn-success" type="submit">授权</button>
+                <!--<a id="confirmationForm" name="confirmationForm" class="btn btn-success">同 意</a>-->
+
+                <!--<a id='denialForm' name='denialForm' class="btn btn-warning">拒 绝</a>-->
+            </form>
+            <form class="login-main-con2" name='denialForm' action='/oauth/authorize' th:attr="action=@{/oauth/authorize}" method='post'>
+                <input name='user_oauth_approval' value='false' type='hidden'/>
+                <input type='hidden' name='${_csrf.parameterName}' value='${_csrf.token}'/>
+                <button id='denybutton' name='denialForm' class="btn btn-warning" type="submit">拒绝</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+server:
+  port: 9000
+#security:
+#  oauth2:
+#    client:
+#      client-id: acme
+#      client-secret: acmesecret
+#      scope: read,write
+#      auto-approve-scopes: '.*'
+
+#logging:
+#  level:
+#    org.springframework.security: DEBUG
+jdbc:
+  driverClassName: oracle.jdbc.driver.OracleDriver
+  url: jdbc:oracle:thin:@10.104.236.52:1521:orcl
+  username: hxlc
+  password: hxlc
+#  max-active: 15
+#  max-idle: 15
+#  max-wait: 10000
+#  min-idle: 5
+#  timeBetweenEvictionRunsMillis: 30000
+#  initial-size: 5
+#  type: org.apache.tomcat.jdbc.pool.DataSource
+queryRoleSQL: SELECT LOGINNAME AS username,ROLENAME AS ROLE FROM SYS_USERROLE ur,SYS_ROLE r,SYS_USER u WHERE ur.userid = u.userid AND ur.roleid = r.roleid AND u.LOGINNAME =?
+#logging:
+#  level:
+#    root: debug
